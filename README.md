@@ -1,37 +1,37 @@
-# SurgVLA-R 项目页（GitHub Pages）
+# SurgVLA-R
 
-GitHub 账户：https://github.com/Lucasfeng0611
+面向手术机器人精细操作的视觉定位与分层闭环控制研究。
 
-把整个 `github-pages/` 目录推到个人站点即可，例如：
+**项目网站：** [lucasfeng0611.github.io/SurgVLA-R](https://lucasfeng0611.github.io/SurgVLA-R/)
 
-```text
-https://lucasfeng0611.github.io/surgvla-r/
-```
+## 项目简介
 
-对应仓库名建议：`surgvla-r` 或放进 `Lucasfeng0611.github.io`。
+SurgVLA-R 在 SurRoL / PyBullet 的 NeedlePick 仿真任务中，研究机器人如何从视觉观测中定位手术针的正确抓取点，并将感知结果转化为稳定的闭环动作。
 
-或把本目录内容放到仓库的 `docs/`，在 GitHub Settings → Pages 选 Deploy from branch / docs。
+项目建立了从数据生成、模仿学习和 VLA 微调，到 RGB-D 定位、视觉伺服与闭环评测的完整实验链路。研究路线从端到端策略逐步发展为“高层策略 + 局部几何 + 安全闭夹”的分层系统。
 
-## 本地预览
+## 核心结果
 
-在本目录打开即可（相对路径，不必起服务器）：
+- State-Only ACT 三训练种子 final 平均成功率：**90.0%（135/150）**。
+- 新定位与传感深度局部闭环：**83/84（98.8%）** 严格达标。
+- 无训练物理抓取盆地扫描：**8,232/8,240** 次成功抓取并抬升。
+- 配对局部控制评测：**420** 个闭环回合。
 
-- `index.html` 概览
-- `results.html` 量化结果
-- `videos.html` 演示视频
-- `diagnosis.html` hold-open 诊断
-- `about.html` 项目维护者、研究范围与引用
+不同结果对应不同证据层级。状态 ACT 使用仿真真值，用于验证控制上限；83/84 来自局部接管开发场景，不等同于完整视觉 NeedlePick 的最终成功率。
 
-若视频无法播放，用任意静态服务器：
+## 网站内容
 
-```bash
-python -m http.server 8080
-```
+- **概览：** 研究问题、系统设计与项目演进
+- **结果：** 状态基线、物理验证、局部闭环与最新泛化实验
+- **视频：** ACT、SmolVLA 与视觉伺服代表性回放
+- **诊断：** 从错误收敛到新定位方案的证据链
+- **关于：** 作者工作、项目时间线与研究范围
 
-## 内容范围
+## 研究范围
 
-页面已同步至 2026-09-17 的研究进展，包含状态 ACT 基线、SmolVLA pilot、物理抓取盆地、局部 RGB-D 闭环、定位诊断与最新离线泛化实验。
+当前结果来自 SurRoL / PyBullet 仿真研究，毫米指标为仿真坐标。项目不对真实机器人精度或临床有效性作外推。
 
-首页采用研究项目作品集叙事；结果页按证据等级区分状态基线、物理验证、局部闭环和离线实验。视频中的主演示记录截至 2026-08-26 的阶段，最新量化结论以结果页为准。
+## 作者
 
-About 页包含项目维护者、独立完成的工作、项目演进、研究范围与引用信息。
+冯锦阳（[@Lucasfeng0611](https://github.com/Lucasfeng0611)）  
+项目设计、实现、实验与材料整理。
