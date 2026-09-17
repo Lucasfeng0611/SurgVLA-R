@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="关于 SurgVLA-R：冯锦阳独立完成的手术机器人视觉精细操作研究与工程项目。">
+  <title>项目与作者 · SurgVLA-R</title>
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body class="about-page">
+  <div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>SurgVLA-R</strong><small>Research project · 2026</small></span></a>
+    <nav class="main-nav" aria-label="站点导航"><a href="index.html">概览</a><a href="results.html">结果</a><a href="videos.html">视频</a><a href="diagnosis.html">诊断</a><a href="about.html" aria-current="page">关于</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false">菜单</button>
+  </header>
+
+  <main>
+    <section class="page-hero section-shell about-hero">
+      <p class="crumb"><a href="index.html">概览</a> / 项目与作者</p>
+      <h1>一项从工程实现走向研究问题的独立项目</h1>
+      <p>SurgVLA-R 始于“让视觉策略完成 NeedlePick”，随后发展为对精细抓取中感知、几何与控制边界的系统研究。</p>
+    </section>
+
+    <section class="profile-section section-shell">
+      <article class="profile-card reveal">
+        <span>Project lead</span><h2>冯锦阳</h2>
+        <p>独立完成项目设计、代码实现、数据生成、模型训练、服务器实验、闭环评测、失败分析和材料整理。</p>
+        <a class="button primary" href="https://github.com/Lucasfeng0611">GitHub 主页</a>
+      </article>
+      <div class="profile-statement reveal delay-1">
+        <p class="eyebrow"><span>01</span> Research approach</p>
+        <h2>我想展示的是解决问题的能力，而不只是一个最高分。</h2>
+        <p>在端到端 VLA 没有达到预期后，我没有直接扩大训练，而是先验证控制上限、物理可抓区域和视觉伺服行为，再将问题缩小到针上语义抓取点与跨场景泛化。</p>
+        <p>这一过程最终形成了新的分层方案，并在局部闭环中取得 83/84 的严格达标结果。对我而言，这个项目最重要的产出是：能够根据证据调整路线，同时保持实验口径一致。</p>
+      </div>
+    </section>
+
+    <section class="role-section section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>02</span> Work completed</p><h2>项目中的具体工作</h2></header>
+      <div class="role-grid reveal">
+        <article><span>Simulation</span><strong>环境与任务</strong><p>SurRoL / PyBullet NeedlePick 接入、动作与状态接口、相机和目标可观测性设计。</p></article>
+        <article><span>Data</span><strong>数据工程</strong><p>专家轨迹采集、扰动数据、完整性校验、回放、数据转换和数据划分。</p></article>
+        <article><span>Learning</span><strong>模型训练</strong><p>ACT、SmolVLA、局部视觉定位、RGB-D 几何头与多训练种子实验。</p></article>
+        <article><span>Control</span><strong>闭环系统</strong><p>推理服务器、目标位置滤波、对齐门、闭夹许可和恢复条件设计。</p></article>
+        <article><span>Evaluation</span><strong>实验评测</strong><p>固定 selection/final 划分、配对扰动、物理盆地扫描和逐回合指标复算。</p></article>
+        <article><span>Communication</span><strong>研究表达</strong><p>技术报告、机器可读结果、失败案例、视频演示和项目网页。</p></article>
+      </div>
+    </section>
+
+    <section class="timeline-section section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>03</span> Project timeline</p><h2>研究路线如何演进</h2></header>
+      <div class="project-timeline reveal">
+        <article><time>2026.07</time><div><strong>建立任务与状态基线</strong><p>完成数据生成链路，训练 ACT，并冻结三种子 final 结果。</p></div></article>
+        <article><time>2026.08</time><div><strong>端到端 VLA 与根因诊断</strong><p>完成 SmolVLA pilot、随机性修复、相机几何审计和抓取盆地实验。</p></div></article>
+        <article><time>2026.09</time><div><strong>局部视觉闭环取得进展</strong><p>引入新定位、传感深度与目标滤波，在开发条件下达到 83/84。</p></div></article>
+        <article><time>当前</time><div><strong>空间读取与多场景泛化</strong><p>比较空间 token 结构并扩展训练场景，为完整任务重新集成做准备。</p></div></article>
+      </div>
+    </section>
+
+    <section class="scope-section section-shell ruled-section">
+      <div class="scope-copy reveal"><p class="eyebrow"><span>04</span> Scope</p><h2>研究范围</h2><p>项目关注仿真中的方法与工程验证。边界写清楚，是为了让已有结果更可信，而不是削弱其研究价值。</p></div>
+      <div class="scope-list reveal delay-1">
+        <article><span>平台</span><strong>SurRoL / PyBullet</strong></article>
+        <article><span>主要任务</span><strong>NeedlePick</strong></article>
+        <article><span>研究对象</span><strong>ACT、SmolVLA、局部 RGB-D 控制</strong></article>
+        <article><span>当前证据</span><strong>仿真闭环与离线定位实验</strong></article>
+        <article><span>不作外推</span><strong>真机精度与临床有效性</strong></article>
+      </div>
+    </section>
+
+    <section class="citation-section section-shell">
+      <div class="section-heading reveal"><p class="eyebrow"><span>05</span> Project summary</p><h2>引用信息</h2></div>
+      <pre class="cite reveal">Feng, J. (2026). SurgVLA-R: Visual localization and hierarchical
+closed-loop control for surgical NeedlePick in simulation.
+Independent research and engineering project.
+https://github.com/Lucasfeng0611</pre>
+    </section>
+  </main>
+  <footer class="site-footer"><div><strong>SurgVLA-R</strong><span>手术机器人视觉精细操作 · 仿真研究</span></div><div><span>Latest research snapshot</span><strong>2026-09-17</strong></div><a href="index.html">回概览</a></footer>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

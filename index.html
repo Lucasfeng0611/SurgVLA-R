@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SurgVLA-R：面向手术机器人精细操作的视觉定位、模仿学习与分层闭环控制研究。">
+  <meta name="theme-color" content="#0c1921">
+  <title>SurgVLA-R · 手术机器人视觉精细操作研究</title>
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body class="project-home">
+  <div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span><strong>SurgVLA-R</strong><small>Research project · 2026</small></span>
+    </a>
+    <nav class="main-nav" aria-label="站点导航">
+      <a href="index.html" aria-current="page">概览</a>
+      <a href="results.html">结果</a>
+      <a href="videos.html">视频</a>
+      <a href="diagnosis.html">诊断</a>
+      <a href="about.html">关于</a>
+    </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false">菜单</button>
+  </header>
+
+  <main>
+    <section class="hero intro-hero section-shell" id="overview">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span>01</span> 独立研究项目 · SurRoL NeedlePick</p>
+        <h1>让视觉真正落到<br><em>抓取点上</em></h1>
+        <p class="hero-lede">我在 SurRoL 手术机器人仿真中研究一个具体问题：机器人怎样从图像中找到手术针上的正确抓取位置，并把视觉判断转化为稳定的闭环动作。</p>
+        <p class="hero-note">项目覆盖数据生成、模仿学习、VLA 微调、视觉定位、RGB-D 伺服与严格评测。当前已经建立完整实验链路，并形成了“高层策略 + 局部几何 + 安全闭夹”的分层方案。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="videos.html">观看项目演示</a>
+          <a class="button ghost" href="results.html">查看实验结果</a>
+        </div>
+        <div class="status-row" aria-label="项目状态">
+          <span class="status complete"><b></b>完整研究链路已建立</span>
+          <span class="status complete"><b></b>局部视觉闭环已验证</span>
+          <span class="status active"><b></b>跨场景泛化进行中</span>
+        </div>
+      </div>
+
+      <div class="hero-visual intro-visual reveal delay-1">
+        <figure class="scene-card intro-scene">
+          <img src="assets/media/scene.png" alt="SurRoL NeedlePick 仿真场景：机械臂、手术针与视觉目标标记">
+          <figcaption><span>SurRoL · NeedlePick</span><span>视觉定位 → 对齐 → 闭夹 → 抬升</span></figcaption>
+        </figure>
+        <div class="visual-callout callout-a"><span>01</span><b>Visual perception</b><small>双目 / 腕部 RGB-D</small></div>
+        <div class="visual-callout callout-b"><span>02</span><b>Closed-loop control</b><small>最后几毫米精细修正</small></div>
+      </div>
+
+      <div class="metric-ribbon intro-metrics reveal delay-2">
+        <article><span>状态控制基线</span><strong>90.0<sup>%</sup></strong><small>三训练种子 · 150 次 final rollout</small></article>
+        <article><span>局部视觉闭环</span><strong>83/84</strong><small>严格达标 · 8 个新开发场景</small></article>
+        <article><span>物理可抓性验证</span><strong>8232</strong><small>/8240 次抓取与抬升成功</small></article>
+        <article><span>闭环实验规模</span><strong>420</strong><small>配对局部控制回合</small></article>
+      </div>
+    </section>
+
+    <section class="research-intro section-shell">
+      <div class="section-index reveal"><span>Research question</span><b>研究问题</b></div>
+      <div class="research-statement reveal delay-1">
+        <p class="dropcap">精细抓取并不只需要“看见手术针”。模型还必须判断针上的哪一点适合抓取，并在机械臂移动、遮挡和深度扰动下持续更新这一判断。</p>
+        <p>这个项目没有把所有问题压进一个成功率，而是依次验证控制上限、物理抓取范围、视觉定位误差和闭环稳定性。每一步都保留固定数据划分、逐回合记录和可复核结果。</p>
+      </div>
+      <aside class="project-thesis reveal delay-2">
+        <span>核心认识</span>
+        <blockquote>预测误差接近零，不等于机械臂已经到达正确的抓取位置。</blockquote>
+        <small>视觉判断必须用真实物理结果校准</small>
+      </aside>
+    </section>
+
+    <section class="story section-shell ruled-section">
+      <header class="section-heading reveal">
+        <p class="eyebrow"><span>02</span> Research progression</p>
+        <h2>从“能不能完成”，到“怎样稳定完成”</h2>
+        <p>研究路线随着证据逐步收敛：先证明任务可学，再定位视觉瓶颈，最后把有效模块组合成可验证的局部闭环。</p>
+      </header>
+      <div class="story-grid">
+        <article class="story-card reveal">
+          <div class="story-number">01</div><p class="story-kicker">Control baseline</p><h3>建立控制上限</h3>
+          <p>使用 11 维仿真状态训练 Deterministic State-Only ACT。三个训练种子在固定 final 场景上完成 135/150 次任务，平均成功率 90%。</p>
+          <strong>结论：任务动力学和控制映射本身可以学习。</strong>
+        </article>
+        <article class="story-card reveal delay-1">
+          <div class="story-number">02</div><p class="story-kicker">Failure isolation</p><h3>把问题定位到视觉几何</h3>
+          <p>通过 SmolVLA、相机几何、抓取盆地和 hold-open 实验，逐步排除随机噪声、数值精度和夹爪解码等解释。</p>
+          <strong>结论：关键在于针上语义抓取点的精确定位。</strong>
+        </article>
+        <article class="story-card featured reveal delay-2">
+          <div class="story-number">03</div><p class="story-kicker">Hierarchical solution</p><h3>形成分层闭环方案</h3>
+          <p>将局部残差定位、传感深度和目标位置滤波结合，在相同配对条件下把严格达标率从 54/84 提升到 83/84。</p>
+          <strong>结论：显式几何与闭环控制能够显著改善姿态偏移场景。</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="system-section section-shell ruled-section">
+      <header class="section-heading reveal">
+        <p class="eyebrow"><span>03</span> System design</p>
+        <h2>一条完整的研究链路</h2>
+        <p>从仿真数据到模型训练，再到闭环评测和失败回放，所有环节都在同一套实验协议下衔接。</p>
+      </header>
+      <div class="system-flow reveal delay-1" aria-label="项目系统流程">
+        <article><span>01</span><small>Data</small><strong>专家轨迹与扰动数据</strong><p>生成、校验、回放和 LeRobot 转换</p></article><i aria-hidden="true">→</i>
+        <article><span>02</span><small>Policy</small><strong>ACT 与 SmolVLA</strong><p>状态基线、高层策略与动作预测</p></article><i aria-hidden="true">→</i>
+        <article><span>03</span><small>Geometry</small><strong>局部 RGB-D 定位</strong><p>抓取点、传感深度与空间表征</p></article><i aria-hidden="true">→</i>
+        <article><span>04</span><small>Control</small><strong>闭环伺服与安全门</strong><p>目标滤波、对齐判断与闭夹许可</p></article>
+      </div>
+    </section>
+
+    <section class="evidence-section section-shell ruled-section">
+      <header class="section-heading reveal">
+        <p class="eyebrow"><span>04</span> Evidence</p>
+        <h2>结果按证据等级呈现</h2>
+        <p>状态基线、物理验证和视觉闭环回答的是不同问题，因此分别报告，不把它们混写成一个数字。</p>
+      </header>
+      <div class="evidence-table reveal delay-1" role="table" aria-label="核心实验结果">
+        <div class="evidence-row evidence-head" role="row"><span role="columnheader">实验</span><span role="columnheader">结果</span><span role="columnheader">说明</span></div>
+        <div class="evidence-row" role="row"><strong role="cell">State-Only ACT</strong><b role="cell">90.0%</b><p role="cell">准确状态下的控制基线；证明任务可学，不代表视觉性能。</p></div>
+        <div class="evidence-row highlight" role="row"><strong role="cell">新定位 + 传感深度</strong><b role="cell">83/84</b><p role="cell">局部接管、三种子配对闭环；当前最佳开发方案。</p></div>
+        <div class="evidence-row" role="row"><strong role="cell">物理抓取盆地</strong><b role="cell">8232/8240</b><p role="cell">验证针在一定位置与姿态误差内仍可稳定抓取和抬升。</p></div>
+        <div class="evidence-row" role="row"><strong role="cell">端到端 SmolVLA</strong><b role="cell">完成 pilot</b><p role="cell">工程链路已跑通；结果推动项目转向更适合精细操作的分层控制。</p></div>
+      </div>
+      <p class="evidence-caption reveal">当前结果来自 SurRoL / PyBullet 仿真研究。局部闭环尚需扩大场景并接回完整任务，不外推为真实临床性能。</p>
+    </section>
+
+    <section class="contribution section-shell ruled-section">
+      <div class="contribution-copy reveal">
+        <p class="eyebrow"><span>05</span> What this project demonstrates</p>
+        <h2>这个项目展示的不只是一组模型结果</h2>
+        <p>我独立完成了从问题定义、实验设计、工程实现到证据复核的全过程，并在实验不符合预期时继续缩小问题，而不是只保留最好的数字。</p>
+      </div>
+      <div class="contribution-list reveal delay-1">
+        <article><span>A</span><div><strong>系统工程</strong><p>打通仿真、数据、训练、推理服务器、闭环控制和回放分析。</p></div></article>
+        <article><span>B</span><div><strong>实验设计</strong><p>使用多训练种子、固定数据划分、配对条件和分级评测减少结论偏差。</p></div></article>
+        <article><span>C</span><div><strong>研究判断</strong><p>从端到端策略转向分层系统，并用实验说明为什么需要这一变化。</p></div></article>
+        <article><span>D</span><div><strong>可复核性</strong><p>保存逐回合轨迹、模型与数据哈希、失败案例和机器可读报告。</p></div></article>
+      </div>
+    </section>
+
+    <section class="next-step section-shell reveal">
+      <span>Current direction · September 2026</span>
+      <h2>下一步，是把局部精度变成完整任务能力。</h2>
+      <p>当前正在比较空间 token 读取与多场景训练，重点改善跨场景长尾误差。局部模块稳定后，将重新接入完整的接近、抓取、抬升与运送流程，并开展恢复示范对照。</p>
+      <div class="next-actions">
+        <a class="button primary light" href="results.html">阅读完整结果</a>
+        <a class="button ghost light" href="videos.html">查看闭环回放</a>
+        <a class="button ghost light" href="about.html">项目与作者</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><strong>SurgVLA-R</strong><span>手术机器人视觉精细操作 · 仿真研究</span></div>
+    <div><span>Latest research snapshot</span><strong>2026-09-17</strong></div>
+    <a href="https://github.com/Lucasfeng0611">GitHub</a>
+  </footer>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SurgVLA-R 核心结果：状态 ACT、局部 RGB-D 闭环、物理抓取盆地与 SmolVLA 研究进展。">
+  <title>实验结果 · SurgVLA-R</title>
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body class="results-page">
+  <div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>SurgVLA-R</strong><small>Research project · 2026</small></span></a>
+    <nav class="main-nav" aria-label="站点导航"><a href="index.html">概览</a><a href="results.html" aria-current="page">结果</a><a href="videos.html">视频</a><a href="diagnosis.html">诊断</a><a href="about.html">关于</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false">菜单</button>
+  </header>
+
+  <main>
+    <section class="page-hero section-shell result-hero">
+      <p class="crumb"><a href="index.html">概览</a> / 实验结果</p>
+      <div><h1>从控制上限到视觉闭环</h1><p>每组实验回答不同层次的问题：任务是否可学、针是否可抓、视觉定位能否进入正确区域，以及方法能否跨场景保持精度。</p></div>
+      <aside><span>Latest closed-loop result</span><strong>83/84</strong><small>严格达标 · 98.8%</small></aside>
+    </section>
+
+    <section class="result-overview section-shell">
+      <article class="result-lead reveal">
+        <span>Local RGB-D closed loop</span>
+        <h2>新定位与传感深度</h2>
+        <div class="result-score"><strong>83</strong><i>/84</i><b>98.8%</b></div>
+        <p>在 8 个新开发场景、3 个训练种子和 5 类配对条件中，同时满足区域内闭夹、抬升至少 10 mm、最终双侧接触和无检测碰撞。</p>
+        <div class="result-delta"><span>原模型</span><b>54/84</b><i>→</i><span>新组合</span><b>83/84</b></div>
+      </article>
+      <div class="condition-panel reveal delay-1">
+        <header><span>Condition breakdown</span><strong>通过 / 总数</strong></header>
+        <div><span>常规场景</span><i><b style="--value:100%"></b></i><strong>24/24</strong></div>
+        <div><span>姿态偏移</span><i><b style="--value:97.9%"></b></i><strong>47/48</strong></div>
+        <div><span>亮度降低</span><i><b style="--value:100%"></b></i><strong>6/6</strong></div>
+        <div><span>深度负偏移</span><i><b style="--value:100%"></b></i><strong>6/6</strong></div>
+        <p>主要提升来自姿态偏移条件：由原模型的 18/48 提高到 47/48。</p>
+      </div>
+    </section>
+
+    <section class="comparison-section section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>01</span> Paired comparison</p><h2>五种局部控制组合</h2><p>420 个回合使用相同条件配对比较，没有只选择表现最好的训练种子。</p></header>
+      <div class="comparison-table reveal" role="table" aria-label="局部闭环组合对比">
+        <div class="comparison-row head" role="row"><span>组合</span><span>严格达标</span><span>区域外闭夹</span><span>碰撞</span><span>判断</span></div>
+        <div class="comparison-row" role="row"><strong>原模型</strong><b>54/84</b><span>30</span><span>0</span><em>基线</em></div>
+        <div class="comparison-row" role="row"><strong>3000 步定位 + 旧深度</strong><b>66/84</b><span>17</span><span>5</span><em>定位改善，深度不足</em></div>
+        <div class="comparison-row winner" role="row"><strong>3000 步定位 + 传感深度</strong><b>83/84</b><span>1</span><span>0</span><em>唯一通过固定筛选</em></div>
+        <div class="comparison-row" role="row"><strong>4500 步定位 + 旧深度</strong><b>65/84</b><span>18</span><span>6</span><em>未通过</em></div>
+        <div class="comparison-row" role="row"><strong>4500 步定位 + 传感深度</strong><b>81/84</b><span>0</span><span>0</span><em>3 次未闭夹</em></div>
+      </div>
+      <p class="evidence-caption reveal">原模型和最佳组合都完成了 84/84 次抬针与最终双侧接触。本轮提升主要是闭夹位置更准确，而不是放宽“抓住”的定义。</p>
+    </section>
+
+    <section class="baseline-section section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>02</span> Control upper bound</p><h2>准确状态下，任务可以稳定学习</h2><p>State-Only ACT 使用 11 维仿真状态，是控制能力的上限对照，不使用图像。</p></header>
+      <div class="baseline-layout">
+        <article class="baseline-total reveal"><span>Three-seed final</span><strong>135<small>/150</small></strong><p>平均成功率 90.0%</p></article>
+        <div class="seed-results reveal delay-1">
+          <div><span>seed 20260731</span><i><b style="--value:96%"></b></i><strong>48/50</strong></div>
+          <div><span>seed 20260732</span><i><b style="--value:80%"></b></i><strong>40/50</strong></div>
+          <div><span>seed 20260733</span><i><b style="--value:94%"></b></i><strong>47/50</strong></div>
+          <p>这组结果证明任务动力学和闭环映射可学，也为视觉方法提供了明确的控制上限。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="basin-section section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>03</span> Physical feasibility</p><h2>真实可抓区域比单帧标签更宽</h2><p>通过无训练物理扫描与特权伺服，直接测量不同位置和姿态误差下是否能建立稳定抓取。</p></header>
+      <div class="metric-ribbon reveal">
+        <article><span>物理扫描</span><strong>8240</strong><small>总试验次数</small></article>
+        <article><span>成功抓取</span><strong>8232</strong><small>并完成显式抬升</small></article>
+        <article><span>中央区域</span><strong>81/81</strong><small>80 个场景全部通过</small></article>
+        <article><span>Active Servo</span><strong>2640</strong><small>/2640 物理成功</small></article>
+      </div>
+    </section>
+
+    <section class="progress-section section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>04</span> Current frontier</p><h2>最新离线实验指向“空间表示与泛化”</h2><p>确定性解码头已经能精细拟合训练子集，但跨场景尾部误差仍然明显，下一步不再只是增加训练步数。</p></header>
+      <div class="ladder-grid reveal">
+        <article><span>32 帧训练</span><strong>0.129 mm</strong><small>Huber · 训练 P95</small></article>
+        <article><span>128 帧训练</span><strong>0.303 mm</strong><small>Huber · 训练 P95</small></article>
+        <article><span>807 帧训练</span><strong>0.744 mm</strong><small>Huber · 训练 P95</small></article>
+        <article class="open"><span>跨场景校准</span><strong>8.53 mm</strong><small>807 帧头 · 校准 P95</small></article>
+      </div>
+      <div class="current-work reveal delay-1"><strong>正在进行</strong><p>比较全局均值与 4×4 空间 token 读取，并把训练场景由 4 个扩展到 30 个，以区分空间信息损失、场景多样性和数据量的作用。</p></div>
+    </section>
+
+    <section class="next-step section-shell reveal">
+      <span>How to read the evidence</span><h2>最强的结果来自局部闭环，最终目标仍是完整任务。</h2>
+      <p>当前结论支持继续推进分层系统：高层策略负责阶段与粗动作，局部 RGB-D 模块负责最后几毫米。下一轮将扩大场景并接回完整的接近、抓取、抬升和运送流程。</p>
+      <div class="next-actions"><a class="button primary light" href="diagnosis.html">看研究诊断</a><a class="button ghost light" href="videos.html">看实验回放</a></div>
+    </section>
+  </main>
+  <footer class="site-footer"><div><strong>SurgVLA-R</strong><span>手术机器人视觉精细操作 · 仿真研究</span></div><div><span>Latest research snapshot</span><strong>2026-09-17</strong></div><a href="index.html">回概览</a></footer>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

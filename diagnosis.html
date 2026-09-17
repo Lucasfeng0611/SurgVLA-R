@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SurgVLA-R 如何从视觉伺服失败中定位抓取点偏差，并发展出新定位与传感深度闭环方案。">
+  <title>研究诊断 · SurgVLA-R</title>
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body class="diagnosis-page">
+  <div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>SurgVLA-R</strong><small>Research project · 2026</small></span></a>
+    <nav class="main-nav" aria-label="站点导航"><a href="index.html">概览</a><a href="results.html">结果</a><a href="videos.html">视频</a><a href="diagnosis.html" aria-current="page">诊断</a><a href="about.html">关于</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false">菜单</button>
+  </header>
+
+  <main>
+    <section class="page-hero section-shell diagnosis-hero">
+      <p class="crumb"><a href="index.html">概览</a> / 研究诊断</p>
+      <h1>从错误收敛，走到可用的局部闭环</h1>
+      <p>Hold-open 实验不是项目的终点。它把问题从“为什么抓不住”缩小到“视觉零点为什么落在错误位置”，并直接推动了新的定位与深度组合。</p>
+    </section>
+
+    <section class="diagnosis-story section-shell">
+      <header class="section-heading reveal"><p class="eyebrow"><span>01</span> The turning point</p><h2>模型认为自己已经对准，真实位置却仍在偏离</h2><p>为了排除闭夹动作的干扰，实验保持夹爪张开，只观察视觉伺服如何移动。</p></header>
+      <div class="trio diagnostic-frames reveal">
+        <figure><img src="assets/media/holdopen-start.png" alt="Hold-open 第 0 步"><figcaption><b>Step 0</b><span>开始视觉伺服</span></figcaption></figure>
+        <figure><img src="assets/media/holdopen-closest.png" alt="Hold-open 第 7 步"><figcaption><b>Step 7</b><span>最接近真实抓取区域</span></figcaption></figure>
+        <figure><img src="assets/media/holdopen-final.png" alt="Hold-open 第 29 步"><figcaption><b>Step 29</b><span>预测收敛，真实位置仍偏离</span></figcaption></figure>
+      </div>
+      <div class="legend-note reveal"><span><i class="yellow"></i>crop 中心</span><span><i class="cyan"></i>模型预测点</span><span><i class="green"></i>真实抓取点投影</span></div>
+      <div class="diagnostic-metrics reveal">
+        <article><span>轨迹</span><strong>8</strong><small>固定诊断场景</small></article>
+        <article><span>控制步</span><strong>240</strong><small>全程保持开爪</small></article>
+        <article><span>预测残差中位数</span><strong>0.05 mm</strong><small>模型内部判断</small></article>
+        <article><span>真实误差中位数</span><strong>4.79 mm</strong><small>仿真真值复核</small></article>
+      </div>
+    </section>
+
+    <section class="reasoning-section section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>02</span> Evidence chain</p><h2>一次失败，怎样变成下一步实验</h2></header>
+      <div class="reasoning-chain reveal">
+        <article><span>观察</span><strong>预测点长期贴近画面中心</strong><p>热图接近均匀，模型更像在使用相机先验，而不是稳定定位针上的抓取点。</p></article>
+        <i>→</i>
+        <article><span>判断</span><strong>控制器没有坏，视觉零点错了</strong><p>特权几何伺服能够稳定抓取；真正缺少的是可部署视觉对抓取点的校准。</p></article>
+        <i>→</i>
+        <article><span>改进</span><strong>增加局部空间容量</strong><p>训练局部残差定位分支，并先在离线三维误差上筛选候选。</p></article>
+        <i>→</i>
+        <article class="resolved"><span>闭环验证</span><strong>定位 + 传感深度</strong><p>在配对开发条件中达到 83/84，姿态偏移由 18/48 提升至 47/48。</p></article>
+      </div>
+    </section>
+
+    <section class="root-cause section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>03</span> What was ruled out</p><h2>不是靠猜测选择下一条路线</h2><p>项目用针对性实验逐步排除或降低了多种可能解释。</p></header>
+      <div class="cause-grid reveal">
+        <article><span>已处理</span><strong>推理随机性</strong><p>固定 flow noise 派生与运行顺序，恢复 checkpoint 间可复现比较。</p></article>
+        <article><span>已处理</span><strong>BF16 更新问题</strong><p>使用 FP32 trainables 与 optimizer state，并核对真实参数更新。</p></article>
+        <article><span>证据不支持</span><strong>夹爪解码是首因</strong><p>动作与夹爪因子实验没有建立它是主要瓶颈。</p></article>
+        <article><span>证据不支持</span><strong>任务物理上不可抓</strong><p>物理盆地扫描 8232/8240 成功，特权伺服 2640/2640 成功。</p></article>
+        <article class="focus"><span>当前重点</span><strong>语义抓取点与跨场景泛化</strong><p>模型能看到针，但仍需稳定区分针弧上的正确位置。</p></article>
+      </div>
+    </section>
+
+    <section class="tail-case section-shell ruled-section">
+      <div class="tail-copy reveal"><p class="eyebrow"><span>04</span> Remaining edge case</p><h2>83/84 之后，剩下的一次失败更值得研究</h2></div>
+      <div class="tail-detail reveal delay-1"><p>唯一失败发生在姿态偏移条件：控制器估计剩余误差约 0.06 mm，却在真实横向偏差约 12.7 mm 时闭夹。这说明传感深度有效，并不自动保证读取的是正确语义点。</p><p>下一轮会保存这一尾部案例的 RGB-D、热图、预测点与真实投影，比较三个训练种子从哪一步开始分叉。目标不是通过放宽门槛消除失败，而是让模型知道自己什么时候并不确定。</p></div>
+    </section>
+
+    <section class="next-step section-shell reveal">
+      <span>Research value</span><h2>诊断的意义，是把下一步变得更明确。</h2>
+      <p>项目已经从模糊的“视觉策略失败”，推进到可操作的问题：保留空间 token、扩充场景覆盖、校准语义抓取点，并在闭环中管理不确定性。</p>
+      <div class="next-actions"><a class="button primary light" href="results.html">查看最新结果</a><a class="button ghost light" href="videos.html">查看诊断回放</a></div>
+    </section>
+  </main>
+  <footer class="site-footer"><div><strong>SurgVLA-R</strong><span>手术机器人视觉精细操作 · 仿真研究</span></div><div><span>Latest research snapshot</span><strong>2026-09-17</strong></div><a href="index.html">回概览</a></footer>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SurgVLA-R 实验回放：State-Only ACT、SmolVLA 与局部视觉伺服的成功、失败和诊断轨迹。">
+  <title>实验回放 · SurgVLA-R</title>
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body class="videos-page">
+  <div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>SurgVLA-R</strong><small>Research project · 2026</small></span></a>
+    <nav class="main-nav" aria-label="站点导航"><a href="index.html">概览</a><a href="results.html">结果</a><a href="videos.html" aria-current="page">视频</a><a href="diagnosis.html">诊断</a><a href="about.html">关于</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false">菜单</button>
+  </header>
+
+  <main>
+    <section class="page-hero section-shell">
+      <p class="crumb"><a href="index.html">概览</a> / 实验回放</p>
+      <h1>让轨迹补充数字没有说完的部分</h1>
+      <p>成功回放展示系统能做到什么；失败回放帮助区分抓取、抬升、视觉定位和控制时序问题。</p>
+    </section>
+
+    <section class="media section-shell video-lead-section">
+      <figure class="video-feature reveal">
+        <video controls preload="metadata" poster="assets/media/scene.png"><source src="assets/media/demo.mp4" type="video/mp4">您的浏览器不支持视频播放。</video>
+        <figcaption><span>Project overview · 63 sec</span><strong>从状态 ACT、SmolVLA 到局部 RGB-D 视觉伺服</strong></figcaption>
+      </figure>
+      <div class="video-context reveal delay-1"><strong>关于时间口径</strong><p>主演示记录了截至 8 月 26 日的研究阶段。9 月项目在此基础上完成了新定位与传感深度闭环，并取得 83/84 的开发条件结果；最新数字以结果页为准。</p></div>
+    </section>
+
+    <section class="video-chapter section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>01</span> Control baseline</p><h2>状态准确时，策略可以完成完整任务</h2><p>ACT 回放提供控制上限，同时展示成功与失败轨迹之间的差别。</p></header>
+      <div class="media-grid two-column">
+        <article class="video-card reveal"><video controls muted loop preload="metadata"><source src="assets/media/act-success.mp4" type="video/mp4"></video><div><span>ACT · final</span><h3>抓取、抬升与运送</h3><small>成功轨迹 · 特权状态输入</small></div></article>
+        <article class="video-card reveal delay-1"><video controls muted loop preload="metadata"><source src="assets/media/act-fail-lift.mp4" type="video/mp4"></video><div><span>ACT · final</span><h3>稳定抓取后的抬升不足</h3><small>失败分类用于改进评测与控制</small></div></article>
+      </div>
+    </section>
+
+    <section class="video-chapter section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>02</span> End-to-end VLA pilot</p><h2>端到端策略展示了完整技能，也暴露了稳定性差距</h2><p>SmolVLA pilot 证明图像到动作的完整链路能够运行，但 small probe 没有达到扩大正式评测的门槛。</p></header>
+      <div class="media-grid two-column">
+        <article class="video-card reveal"><video controls muted loop preload="metadata"><source src="assets/media/vla-success.mp4" type="video/mp4"></video><div><span>SmolVLA · probe</span><h3>成功抓取回放</h3><small>代表模型能够形成完整动作序列</small></div></article>
+        <article class="video-card reveal delay-1"><video controls muted loop preload="metadata"><source src="assets/media/vla-fail-grasp.mp4" type="video/mp4"></video><div><span>SmolVLA · probe</span><h3>未建立稳定抓取</h3><small>推动项目转向分层精细控制</small></div></article>
+      </div>
+    </section>
+
+    <section class="video-chapter section-shell ruled-section">
+      <header class="section-heading reveal"><p class="eyebrow"><span>03</span> Visual diagnosis</p><h2>保持开爪，单独观察视觉伺服</h2><p>这段回放揭示了“预测已经对齐、真实位置仍然偏离”的错误收敛，为后续定位改进提供了直接方向。</p></header>
+      <figure class="video-feature diagnostic-video reveal"><video controls muted loop preload="metadata" poster="assets/media/holdopen-closest.png"><source src="assets/media/holdopen.mp4" type="video/mp4"></video><figcaption><span>Hold-open · 30 control steps</span><strong>黄：画面中心　青：预测点　绿：真实抓取点</strong></figcaption></figure>
+      <div class="video-outcome reveal"><span>从诊断到改进</span><strong>54/84 → 83/84</strong><p>在后续配对闭环中，局部残差定位与传感深度组合显著减少了姿态偏移条件下的区域外闭夹。</p><a class="text-link" href="diagnosis.html">阅读完整证据链 <span>→</span></a></div>
+    </section>
+  </main>
+  <footer class="site-footer"><div><strong>SurgVLA-R</strong><span>手术机器人视觉精细操作 · 仿真研究</span></div><div><span>Latest research snapshot</span><strong>2026-09-17</strong></div><a href="index.html">回概览</a></footer>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>
